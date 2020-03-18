@@ -1,0 +1,11 @@
+---
+- name: Create a vm
+  hosts: 127.0.0.1
+  tasks:
+    - name: Create a vm
+      command: virt-install --virt-type {{'kvm'}}  --name={{ 'vm02' }}
+               --vcpus={{ 1 }}
+               --memory={{ 1024 }} 
+               --disk size={{'5'}}
+               --cdrom={{ '/var/lib/libvirt/images/ubuntu18.04.qcow2'}}
+               --noautoconsole --os-variant={{'ubuntu18.04'}}

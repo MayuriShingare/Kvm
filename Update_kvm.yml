@@ -1,0 +1,10 @@
+---
+- name: Upgrade vm Memory
+  hosts: 127.0.0.1
+  tasks:
+    - name: Upgrade memory to already created VM
+      #virt:
+      ovirt_vm:
+         auth:'{{qemu+ssh://root@127.0.0.1/system}}'
+         name: 'vm02'
+         memory: '4GiB'

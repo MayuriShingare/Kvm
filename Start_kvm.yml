@@ -1,0 +1,8 @@
+---
+- name: Start a VM
+  hosts: 127.0.0.1
+  tasks: 
+    - name: start a vm
+      virt:
+        name: 'vm01' 
+        state: running

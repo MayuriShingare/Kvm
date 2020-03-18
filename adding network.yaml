@@ -1,0 +1,9 @@
+---
+- name: adding a network to vm
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+    -  virt_net:
+         name: adding network
+         command: modify
+         xml: "<host mac='FC:C2:33:00:6c:3c' name='my_vm' ip='192.168.122.30'/>"                                   

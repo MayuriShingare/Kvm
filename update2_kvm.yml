@@ -1,0 +1,10 @@
+---
+- name: Create a vm
+  hosts: 127.0.0.1
+  tasks:
+    - name: Create a vm
+      virt:
+        name: vm02
+        state: present
+        memory: 4GiB
+               

@@ -1,0 +1,8 @@
+---
+- name: Delete a vm
+  hosts: 127.0.0.1
+  tasks: 
+    - name: delete a vm
+      virt:
+        name: 'vm02'
+        command: destroy

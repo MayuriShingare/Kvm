@@ -1,0 +1,40 @@
+---
+- name: create VMs
+  hosts: localhost
+  connection: local
+  become: true
+  vars_files:
+    - /var/lib/awx/projects/Kvm/my_roles/vars/var_variable.yml
+
+  tasks:
+    - name: Get VM Disks
+      command: "ls {{ vm_location }}"
+      register: disks
+      changed_when: "disks.rc != 0"
+
+    - name: Copy Disk
+      command: >
+               cp -p  {{ image_location }} {{ vm_location }}/{{ item.key }}.{{ item.value.file_type }}
+      when: item.key not in disks.stdout
+      with_dict: "{{ guests }}"
+
+    - name: get list of VMs
+      virt:
+        command: "list_vms"
+      register: vms
+
+    - name: Create VM
+      command: >
+                virt-install --import --name {{ item.key }}
+                --memory {{ item.value.mem }} --vcpus {{ item.value.cpus }}
+                --disk {{ vm_location }}/{{ item.key }}.{{ item.value.file_type }}
+                --network {{ network_detail }}
+                --noautoconsole --os-variant {{ item.value.os_type }}
+      when: item.key not in vms.list_vms
+      with_dict: "{{ guests }}"
+
+    - name: start vm
+      virt:
+        name: "{{ item.key }}"
+        state: running
+      with_dict: "{{ guests }}"

@@ -1,0 +1,18 @@
+---
+- name: Create a vm using
+  hosts: localhost
+  connection: local
+  vars_files:
+    - /var/lib/awx/projects/Kvm/my_roles/vars/var_variable.yml
+
+  tasks:
+    - name: Create a vm
+      command: >
+               virt-install --virt-type {{'kvm'}}  --name={{ 'vm04' }}
+               --vcpus={{ cpus }}
+               --memory={{ mem }}
+               --disk size={{ disk_size }}
+               --cdrom={{ vm_location }}
+               --noautoconsole --os-variant={{ os_type }}
+      #when: item.key not in vms.list_vms
+      #with_dict: "{{ test }}"

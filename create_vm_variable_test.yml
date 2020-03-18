@@ -1,0 +1,26 @@
+---
+- name: Create a vm using variable
+  hosts: localhost
+  connection: local
+  vars_files:
+    - /var/lib/awx/projects/Kvm/my_roles/vars/var_variable.yml
+
+  tasks:
+    
+    - name: get list of VMs
+      virt:
+        command: "list_vms"
+      register: vms
+
+
+    - name: Create a vm using variable
+      command: virt-install --virt-type {{'kvm'}}  --name {{ item.key }}
+               --vcpus {{ item.value.cpus }}
+               --memory {{ item.value.mem }}
+               --disk {{ vm_location }}/{{ item.key }}.{{ item.value.file_type }}
+               --disk size={{ item.value.disk_size }}
+               --import
+               --noautoconsole --os-variant {{ item.value.os_type }}
+      when: item.key not in vms.list_vms
+      with_dict:
+        - "{{ guests }}"
