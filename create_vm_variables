@@ -1,0 +1,16 @@
+---
+- name: Create a vm using variable
+  hosts: localhost
+  vars:
+    - main.yml
+
+  tasks:
+    - name: Create a vm using variable
+      command: virt-install --virt-type {{'kvm'}}  --name={{ 'vm02' }}
+               --vcpus={{ item.value.cpus }}
+               --memory={{ item.value.mem }}
+               --disk size={{'item.value.disk_size'}}
+               --cdrom={{ 'vm_location'}}
+               --noautoconsole --os-variant={{'item.value.os_type'}}
+      when:item.key not in vms.list_vms
+      with_dict "{{ guests }}"
