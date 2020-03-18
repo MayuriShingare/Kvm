@@ -1,0 +1,20 @@
+---
+#guests:
+#vm_location: "/var/lib/libvirt/images/ubuntu18.04.qcow2"
+
+vm_location: "/var/lib/libvirt/images"
+image_location: "/var/lib/libvirt/images/ubuntu18.04.qcow2 "
+network_detail: "bridge=virbr0"
+
+guests:
+  test01:
+    mem: 1024
+    cpus: 1
+    os_type: "ubuntu18.04"
+    file_type: qcow2
+
+  test02:
+    mem: 1024
+    cpus: 2
+    os_type: "ubuntu18.04"
+    file_type: qcow2
